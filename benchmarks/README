@@ -1,0 +1,1 @@
+Run a test: ./bench.sh ruby 'textes/alphanum.txt' 6 '\w' ''
