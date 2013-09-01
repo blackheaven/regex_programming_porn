@@ -21,7 +21,7 @@ case $1 in
     "benchmark")
         sed -e "s/PATTERN/$4/g" benchmark_tpl.rb | sed -e "s/MODIFIER/$5/g" > benchmark.rb
         nb=$(ruby benchmark.rb "../$2")
-        if [ $nb != "$3" ]
+        if [ $(($nb - $3)) -ne 0 ]
         then
             echo "Error: expect '$3' got '$nb' in ruby with args '$2' '$3' '$4' '$5'"
         else
