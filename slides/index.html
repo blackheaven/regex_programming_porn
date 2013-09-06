@@ -52,11 +52,229 @@
                     <script type="text/template">
                         TODO PASTE TWEET
                     </script>
-                </section>
 
                     <aside class="notes">
-                        Imédiatement j'ai pensé aux remèdes suivants.
+                        Imédiatement j'ai pensé que c'était un problème de manque de pratique.
                     </aside>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                        Deux solutions :
+
+                          * Plus de pr0n
+                          * Plus de Regex
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Notes
+
+                          * Présentation des regex PECL (et non POSIX)
+                          * Nous parlerons de regex pour éviter le débat expressions régulières vs expressions rationnelles
+                          * Présentation et benchmarks disponibles sur https://github.com/blackheaven/regex_programming_porn
+                          * Benchmarks réalisés sous FreeBSD 9.1-i386 GENERIC avec Intel(R) Core(TM)2 Duo CPU T6570 @ 2.10GHz
+                          * PHP 5.5.3 / Ruby 2.0.0 / OpenJDK 6-b27_6
+                    </script>
+
+                    <aside class="notes">
+                        Le test des regex est automatisé vous pourrez les relancer pour vérifier.
+                    </aside>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Plan
+
+                          * Constitutifs de base
+                          * Changements du comportement d'évalutation
+                          * Quelques points sur les performances
+                          * Un exemple qui fait saigner du nez
+                    </script>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Constitutifs de base
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## ```/PATTERN/OPTIONS```
+
+                            ### ```/at/```
+
+                            > A c**at** e**at**s a black f**at** r**at**
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Alternative monocaractère
+
+                            ### ```/[cft]/```
+
+                            > A **c**a**t** ea**t**s a bla**c**k **f**a**t** ra**t**
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Multiplicité
+
+                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                            ### 0 à inf. ```/at*/``` - ```/at{0,}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                            ### 1 à inf. ```/at+/``` - ```/at{1,}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                            ### n à m ```/at{n,m}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                            ### n ```/at{n}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Classes de caractères / Métacaractères
+
+                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Capture / Alternatives multi-caractères
+
+                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Changements du comportement d'évalutation
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Options
+
+                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Glouton
+
+                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Commentaires
+
+                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Motifs prospectifs
+
+                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Motifs retrospectifs
+
+                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Glouton
+
+                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Motifs conditionnels
+
+                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Motifs retardés
+
+                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Motifs autonomes
+
+                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+
+                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                        </script>
+                    </section>
                 </section>
 
             </div>
