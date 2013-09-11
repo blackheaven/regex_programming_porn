@@ -71,7 +71,7 @@
                     <script type="text/template">
                         ## Notes
 
-                          * Présentation des regex PECL (et non POSIX)
+                          * Présentation des regex PCRE (et non POSIX)
                           * Nous parlerons de regex pour éviter le débat expressions régulières vs expressions rationnelles
                           * Présentation et environnement de benchmarks disponibles sur https://github.com/blackheaven/regex_programming_porn
                     </script>
@@ -87,7 +87,6 @@
 
                           * Constitutifs de base
                           * Changements du comportement d'évalutation
-                          * Quelques points sur les performances
                           * Un exemple qui fait saigner du nez
                     </script>
                 </section>
@@ -103,8 +102,7 @@
                         <script type="text/template">
                             ## ```/PATTERN/OPTIONS```
 
-                            ### ```/at/```
-
+                            ```/at/```
                             > A c**at** e**at**s a black f**at** r**at**
                         </script>
                     </section>
@@ -113,9 +111,21 @@
                         <script type="text/template">
                             ## Alternative monocaractère
 
-                            ### ```/[cft]/```
-
+                            ```/[cft]/```
                             > A **c**a**t** ea**t**s a bla**c**k **f**a**t** ra**t**
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Exclusion monocaractère
+
+                            #### ```/[^a]/```
+
+                            > **A** **c**a**t** **e**a**ts** a **bl**a**ck** **f**a**t** **r**a**t**
+
+                            ```/[^rt]/```
+                            > **A ca**t **ea**t**s a black fa**t r**a**t
                         </script>
                     </section>
 
@@ -123,36 +133,40 @@
                         <script type="text/template">
                             ## Multiplicité
 
-                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
-
+                            0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
                             > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
 
-                            ### 0 à inf. ```/at*/``` - ```/at{0,}/```
-
+                            0 à inf. ```/at*/``` - ```/at{0,}/```
                             > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
 
-                            ### 1 à inf. ```/at+/``` - ```/at{1,}/```
-
+                            1 à inf. ```/at+/``` - ```/at{1,}/```
                             > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
 
-                            ### n à m ```/at{n,m}/```
-
+                            n à m ```/at{n,m}/```
                             > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
 
-                            ### n ```/at{n}/```
-
+                            n ```/at{n}/```
                             > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
                         </script>
                     </section>
 
                     <section data-markdown>
                         <script type="text/template">
-                            ## Classes de caractères / Métacaractères
+                            ## Classes de caractères
 
-                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+                            Intervals ```/[a-z]/```
+                            > H**ier**, **j**'**ai** **termin**é à 6**h**00.
 
-                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+                            Classes prédefinies ```/[\w]/``` vs ```/[[:alnum]]/```
+                            > **Hier**, **j**'**ai terminé à 6h00**.
 
+                            Jocker ```/.\W/```
+                            > Hie**r,** **j'**a**i_**termin**é\_à\_**6h00.
+
+                            __Non-équivalences à cause des accents dans certains langages__
+
+                            Accents ```/[=e=]/```
+                            > Hi**e**r, j'ai t**e**rmin**é** à 6h00.
                         </script>
                     </section>
 
@@ -160,9 +174,17 @@
                         <script type="text/template">
                             ## Capture / Alternatives multi-caractères
 
-                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+                            #### ```/(ca|ts)/```
+                            > A **ca**t ea**ts** a black fat rat
 
-                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+                            #### ```/(.)(?:la|at)/```
+                            > A **c**at **e**ats a **b**lack **f**at **r**at
+
+                            En PCRE ```/(bla|blac)/```
+                            > A cat eats a **bla**ck fat rat
+
+                            En POSIX ```/(bla|blac)/```
+                            > A cat eats a **blac**k fat rat
 
                         </script>
                     </section>
@@ -177,22 +199,41 @@
 
                     <section data-markdown>
                         <script type="text/template">
-                            ## Options
+                            ## Ancres
 
-                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+                            Début ```/^./```
+                            > **A** cat eats a black fat rat
 
-                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+                            Fin ```/.$/```
+                            > A cat eats a black fat ra**t**
+
+                            Délimiteur de mots ```/.at\b/```
+                            > A c**at** eats a black f**at** r**at**
+
+                            Qui est différent de l'espace ```/.at\s/```
+                            > A c**at_**eats a black f**at_**r**at$**
 
                         </script>
                     </section>
 
                     <section data-markdown>
                         <script type="text/template">
-                            ## Glouton
+                            ## Options
 
-                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+                            ### ```/PATTERN/OPTIONS```
 
-                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+                            Insensibilité à la casse ```/a/i```
+                            > **A** c**a**t e**a**ts **a** bl**a**ck f**a**t r**a**t
+
+                            Prise en compte des retours à la ligne des ancres ```/at$/m```
+                            > A ca**t\n**
+                            ### 
+                            > eats a black fat ra**t$**
+
+                            Prise en compte des retours pour le point ```/at./s``` voire ```/at./s```
+                            > A ca**t\n**
+                            ### 
+                            > e**ats** a black fa**t_**rat
 
                         </script>
                     </section>
@@ -201,9 +242,34 @@
                         <script type="text/template">
                             ## Commentaires
 
-                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+                            ### ```/at# Cherche at/x```
 
                             > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Comportements glouton
+
+                            Chercher la plus longue correspondance ```/a.*t/```
+                            > A c**at eats a black fat rat**
+
+                            Chercher la plus courte correspondance ```/a.*?t/```
+                            > A c**at** e**at**s **a black fat** r**at**
+
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Références aux correspondances
+
+                            Les correspondances capturées sont accessible via \\1 à \\9
+
+                            Chercher les balise à contenu ```/<(\w+)>.*<\/\1>/```
+                            > ``<``**p**``></br></p>``
 
                         </script>
                     </section>
@@ -212,9 +278,11 @@
                         <script type="text/template">
                             ## Motifs prospectifs
 
-                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+                            Positif ```/(?=.*[A-Z])(?=.*\d).{5,}/```
+                            > MyPassword
 
-                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+                            Négatif ```/(?=.*[A-Z])(?!.*\d).{5,}/```
+                            > **MyPassword**
 
                         </script>
                     </section>
@@ -223,9 +291,11 @@
                         <script type="text/template">
                             ## Motifs retrospectifs
 
-                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+                            Positif ```/(?<=if) (true|false)/```
+                            > if **true** while false
 
-                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+                            Négatif ```/(?<!if) (true|false)/```
+                            > if true while **false**
 
                         </script>
                     </section>
@@ -234,9 +304,11 @@
                         <script type="text/template">
                             ## Glouton
 
-                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+                            Comportement standard ```/a.*t/```
+                            > A c**at eats a black fat rat**
 
-                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
+                            Comportement non-glouton ```/a.*?t/```
+                            > A c**at** e**at**s a bl**ack fat** r**at**
 
                         </script>
                     </section>
@@ -245,32 +317,52 @@
                         <script type="text/template">
                             ## Motifs conditionnels
 
-                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+                             ```/if (true)?(?(1)(?! else)|false else true)/```
+                            > if true then false
+                            ##### 
+                            > if **true**
+                            ##### 
+                            > **if false then true**
 
-                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
-
+                             ```/if (true)?(?(1)(?! else))/```
+                            > if true then false
+                            ##### 
+                            > if **true**
+                            ##### 
+                            > **if** false
                         </script>
                     </section>
 
                     <section data-markdown>
                         <script type="text/template">
-                            ## Motifs retardés
+                            ## Et plus encore
 
-                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+                             * Motifs retardés (récursifs) en Perl
+                             * Motifs autonomes ("super-glouton") en JAVA
+                        </script>
+                    </section>
+                </section>
 
-                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
-
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Un exemple
                         </script>
                     </section>
 
                     <section data-markdown>
                         <script type="text/template">
-                            ## Motifs autonomes
+                            ```TODO```
+                        </script>
+                    </section>
+                </section>
 
-                            ### 0 ou 1 ```/at?/``` - ```/at{0,1}/``` - ```/at{,1}/```
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Questions ?
 
-                            > A c**at** e**at**s **a** bl**a**ck f**at** r**at**
-
+                            Pour continuer l'entrainement : http://regexcrossword.com/
                         </script>
                     </section>
                 </section>
