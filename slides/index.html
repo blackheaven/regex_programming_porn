@@ -352,7 +352,111 @@
 
                     <section data-markdown>
                         <script type="text/template">
-                            ```TODO```
+                            ```/\b(?:[\w_][\w_\d]*)\b(?<!if|else|while|for|return)\s*\b([\w_][\w_\d]*)\b(?!\s*\()(?!.*\b\1\b)/```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ```
+                            /
+                            \b
+                                (?:[\w_][\w_\d]*) # Groupe 1
+                            \b
+                            (?<!if|else|while|for|return) # Rétrospectif négatif 1
+                            \s*
+                            \b
+                                ([\w_][\w_\d]*) # Groupe 2
+                            \b
+                            (?!\s*\() # Prospectif négatif 1
+                            (?!.*\b\1\b) # Prospectif négatif 2
+                            /xm```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ```
+                            /
+                            \b
+                                (?:[\w_][\w_\d]*) # Identificateur de type non capturé
+                            \b
+                            (?<!if|else|while|for|return) # qui n'est pas un mot clef
+                            \s*
+                            \b
+                                ([\w_][\w_\d]*) # Identificateur capturé
+                            \b
+                            (?!\s*\() # Prospectif négatif 1
+                            (?!.*\b\1\b) # Prospectif négatif 2
+                            /xm```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ```
+                            /
+                            \b
+                                (?:[\w_][\w_\d]*) # Identificateur de type non capturé
+                            \b
+                            (?<!if|else|while|for|return) # qui n'est pas un mot clef
+                            \s*
+                            \b
+                                ([\w_][\w_\d]*) # Identificateur capturé
+                            \b
+                            (?!\s*\() # qui n'est pas le nom d'une fonction
+                            (?!.*\b\1\b) # Prospectif négatif 2
+                            /xm```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ```
+                            /
+                            \b
+                                (?:[\w_][\w_\d]*) # Identificateur de type non capturé
+                            \b
+                            (?<!if|else|while|for|return) # qui n'est pas un mot clef
+                            \s*
+                            \b
+                                ([\w_][\w_\d]*) # Identificateur capturé
+                            \b
+                            (?!\s*\() # qui n'est pas le nom d'une fonction
+                            (?!.*\b\1\b) # et qui ne réapparaît plus
+                            /xm```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ```
+                            /
+                            \b
+                                (?:[\w_][\w_\d]*) # Identificateur de type non capturé
+                            \b
+                            (?<!if|else|while|for|return) # qui n'est pas un mot clef
+                            \s*
+                            \b
+                                ([\w_][\w_\d]*) # Identificateur capturé
+                            \b
+                            (?!\s*\() # qui n'est pas le nom d'une fonction
+                            (?!.*\b\1\b) # et qui ne réapparaît plus
+                            /xm```
+
+                            #### Liste les variables déclarées mais non utilisées
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Conclusion
+
+                             * Utile pour extraire/valide des informations basiques (addressses email, dates, unités lexicalles)
+                             * Nombreuses variations en fonction du langage ou de la bibliothèque
+                             * Un "vrai" analyseur lexical/syntaxique devient rapidement vital
                         </script>
                     </section>
                 </section>
